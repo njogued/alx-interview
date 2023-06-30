@@ -3,7 +3,10 @@
 Function that returns the pascal triangle
 Assumes that n is always an integer
 """
+
+
 def pascal_triangle(n):
+    """Function to return pascal triangle"""
     if n <= 0:
         return []
     elif n == 1:
