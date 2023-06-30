@@ -12,7 +12,7 @@ def pascal_triangle(n):
     elif n == 1:
         return [[1]]
     elif n == 2:
-        return [[1],[1,1]]
+        return [[1], [1, 1]]
     else:
         lis = [1]
         triangle = pascal_triangle(n - 1)
