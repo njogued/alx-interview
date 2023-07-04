@@ -2,6 +2,8 @@
 """
 Lockboxes
 """
+
+
 def unlocker(box, openboxes, boxes):
     """Unclock all"""
     # [[1, 2], [2], []]
@@ -16,6 +18,7 @@ def unlocker(box, openboxes, boxes):
             openboxes.add(value)
             unlocker(boxes[value], openboxes, boxes)
     return openboxes
+
 
 def canUnlockAll(boxes):
     """Check if unlocked"""
