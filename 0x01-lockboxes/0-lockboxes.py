@@ -5,12 +5,8 @@ Lockboxes
 
 
 def unlocker(box, openboxes, boxes):
-    """Unclock all"""
-    # [[1, 2], [2], []]
     if len(boxes) == len(openboxes):
         return
-    # if len(box) == 0:
-    #   return
     for value in box:
         if value >= len(boxes):
             continue
@@ -23,11 +19,7 @@ def unlocker(box, openboxes, boxes):
 def canUnlockAll(boxes):
     """Check if unlocked"""
     openboxes = {0}
-    if len(boxes[0]) == 0 and len(boxes) > 1:
-        # boxes = [[], [2], [3], [4], []]
-        return False
-    if len(boxes[0]) == 0 and len(boxes) == 1:
-        # boxes = [[]]
+    if len(boxes) == 1:
         return True
     unlocked = unlocker(boxes[0], openboxes, boxes)
     if len(unlocked) == len(boxes):
