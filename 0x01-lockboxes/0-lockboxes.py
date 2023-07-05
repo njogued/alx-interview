@@ -5,6 +5,7 @@ Lockboxes
 
 
 def unlocker(box, openboxes, boxes):
+    """Unlock the boxes"""
     if len(boxes) == len(openboxes):
         return
     for value in box:
