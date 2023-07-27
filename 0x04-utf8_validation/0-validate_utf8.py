@@ -5,10 +5,22 @@ Iterate through integers to check if valid utf8 validation
 
 
 def validUTF8(data):
-    """Method to validate utf8"""
-    for val in data:
-        if type(val) is not int:
-            return False
-        if val > 255 or val < 0:
-            return False
-    return True
+    """Check valid utf 8 characters"""
+    count = 0
+    for num in data:
+        if count == 0:
+            if num >> 5 == 0b110:
+                count = 1
+            elif num >> 4 == 0b1110:
+                count = 2
+            elif num >> 3 == 0b11110:
+                count = 3
+            elif not num >> 7 == 0b0:
+                return False
+
+        else:
+            if not num >> 6 == 0b10:
+                return False
+            else:
+                count -= 1
+    return count == 0
