@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 Iterate through integers to check if valid utf8 validation
 """
