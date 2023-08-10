@@ -28,7 +28,7 @@ request(episodeEndpoint, (error, response, body) => {
   if (error) {
     console.log(error);
   } else {
-    const characters = JSON.parse(body).characters;
-    sendRequest(characters, 0);
+    const characterList = JSON.parse(body).characters;
+    sendRequest(characterList, 0);
   }
 });
