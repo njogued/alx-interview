@@ -1,34 +1,41 @@
-#!/usr/bin/node
-
 const request = require("request");
 
-const episode = process.argv[2];
-const episodeEndpoint = "https://swapi-api.alx-tools.com/api/films" + episode;
+function getCharacterNames(movieId) {
+  const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
 
-function sendRequest(characterList, index) {
-  // Base case: stop when index reaches the length of characterList
-  if (characterList.length === index) {
-    return;
-  }
-  // Make a request for the character at the current index
-  request(characterList[index], (error, response, body) => {
+  request(url, (error, response, body) => {
     if (error) {
-      // Log error if there's an issue with the request
-      console.log(error);
-    } else {
-      // Log the name of the character from the response body
-      console.log(JSON.parse(body).name);
-      // Recursively call sendRequest for the next character
-      sendRequest(characterList, index + 1);
+      console.error("Error:", error);
+      return;
     }
+
+    if (response.statusCode !== 200) {
+      console.error("Error:", response.statusCode);
+      return;
+    }
+
+    const movieData = JSON.parse(body);
+    const characterUrls = movieData.characters;
+
+    // Function to recursively print character names
+    function printCharacters(index) {
+      if (index === characterUrls.length) {
+        return;
+      }
+
+      request(characterUrls[index], (charError, charResponse, charBody) => {
+        if (charError) {
+          console.error("Error:", charError);
+        } else {
+          const character = JSON.parse(charBody);
+          console.log(character.name);
+        }
+
+        printCharacters(index + 1);
+      });
+    }
+
+    // Start printing character names
+    printCharacters(0);
   });
 }
-
-request(episodeEndpoint, (error, response, body) => {
-  if (error) {
-    console.log(error);
-  } else {
-    const characterList = JSON.parse(body).characters;
-    sendRequest(characterList, 0);
-  }
-});
