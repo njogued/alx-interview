@@ -1,41 +1,31 @@
 const request = require("request");
+const process = require("process");
 
-function getCharacterNames(movieId) {
-  const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
+filmNumber = process.argv[2];
+filmEp = "https://swapi-api.alx-tools.com/api/films/" + filmNumber;
+searchMovie(filmEp);
 
-  request(url, (error, response, body) => {
+function findName(url) {
+  request.get(url, (error, response, body) => {
     if (error) {
-      console.error("Error:", error);
-      return;
+      console.log(error);
+    } else {
+      const person_obj = JSON.parse(body);
+      console.log(person_obj.name);
     }
+  });
+}
 
-    if (response.statusCode !== 200) {
-      console.error("Error:", response.statusCode);
-      return;
+function searchMovie(filmEp) {
+  request.get(filmEp, (error, response, body) => {
+    if (error) {
+      console.log(error);
     }
-
-    const movieData = JSON.parse(body);
-    const characterUrls = movieData.characters;
-
-    // Function to recursively print character names
-    function printCharacters(index) {
-      if (index === characterUrls.length) {
-        return;
+    if (response.statusCode == 200) {
+      data = JSON.parse(body);
+      for (let url = 0; url < data.characters.length; url++) {
+        findName(data.characters[url]);
       }
-
-      request(characterUrls[index], (charError, charResponse, charBody) => {
-        if (charError) {
-          console.error("Error:", charError);
-        } else {
-          const character = JSON.parse(charBody);
-          console.log(character.name);
-        }
-
-        printCharacters(index + 1);
-      });
     }
-
-    // Start printing character names
-    printCharacters(0);
   });
 }
