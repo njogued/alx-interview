@@ -29,6 +29,7 @@ def isWinner(x, nums):
 
     maria_wins = 0
     ben_wins = 0
+    newx = x
 
     for n in nums:
         if canWin(n):
