@@ -3,7 +3,9 @@
 
 
 def isWinner(x, nums):
+    """check isWinner"""
     def isPrime(num):
+        """Check if a number is a prime number"""
         if num < 2:
             return False
         for i in range(2, int(num**0.5) + 1):
@@ -12,6 +14,7 @@ def isWinner(x, nums):
         return True
 
     def canWin(n):
+        """Check who wins using canWin"""
         dp = [False] * (n + 1)
         dp[0] = False  # Maria can't win with 0 numbers left
         dp[1] = False  # Maria can't win with 1 number left
