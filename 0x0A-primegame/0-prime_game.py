@@ -41,7 +41,7 @@ def isWinner(x, nums):
 
     Args:
     x (int): The number of rounds to be played.
-    nums (list): An array of integers 'n', 
+    nums (list): An array of integers 'n',
     where each 'n' is the upper limit for prime number calculation.
 
     Returns:
