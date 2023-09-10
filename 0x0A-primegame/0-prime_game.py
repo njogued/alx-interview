@@ -1,48 +1,74 @@
 #!/usr/bin/python3
-"""Function to determine the winner of the prime game"""
+"""Code to determine to winner of the prime game"""
+
+
+def is_prime(n):
+    """
+    Checks if a number n is a prime number.
+
+    Args:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is prime, False otherwise.
+    """
+    for i in range(2, int(n ** 0.5) + 1):
+        if not n % i:
+            return False
+    return True
+
+
+def calculate_primes(n, primes):
+    """
+    Calculate all prime numbers up to n and store them in the 'primes' list.
+
+    Args:
+    n (int): The upper limit for prime number calculation.
+    primes (list): A list to store prime numbers.
+    """
+    top_prime = primes[-1]
+    if n > top_prime:
+        for i in range(top_prime + 1, n + 1):
+            if is_prime(i):
+                primes.append(i)
+            else:
+                primes.append(0)
 
 
 def isWinner(x, nums):
-    """check isWinner"""
-    def isPrime(num):
-        """Check if a number is a prime number"""
-        if num < 2:
-            return False
-        for i in range(2, int(num**0.5) + 1):
-            if num % i == 0:
-                return False
-        return True
+    """
+    Determine the winner of a game played for 'x' rounds.
 
-    def canWin(n):
-        """Check who wins using canWin"""
-        dp = [False] * (n + 1)
-        dp[0] = False  # Maria can't win with 0 numbers left
-        dp[1] = False  # Maria can't win with 1 number left
+    Args:
+    x (int): The number of rounds to be played.
+    nums (list): An array of integers 'n', 
+    where each 'n' is the upper limit for prime number calculation.
 
-        for i in range(2, n + 1):
-            if isPrime(i):
-                dp[i] = True
-                continue
-            for j in range(2, i):
-                if i % j == 0 and not dp[i - j]:
-                    dp[i] = True
-                    break
+    Returns:
+    str: The name of the player that won the most rounds ('Maria' or 'Ben').
+         If the winner cannot be determined, returns None.
+    """
+    players_wins = {"Maria": 0, "Ben": 0}
 
-        return dp[n]
+    primes = [0, 0, 2]
 
-    maria_wins = 0
-    ben_wins = 0
-    newx = x
+    calculate_primes(max(nums), primes)
 
-    for n in nums:
-        if canWin(n):
-            maria_wins += 1
+    for round in range(x):
+        sum_options = sum((i != 0 and i <= nums[round])
+                          for i in primes[:nums[round] + 1])
+
+        if (sum_options % 2):
+            winner = "Maria"
         else:
-            ben_wins += 1
+            winner = "Ben"
 
-    if maria_wins > ben_wins:
-        return "Ben"
-    elif ben_wins > maria_wins:
+        if winner:
+            players_wins[winner] += 1
+
+    if players_wins["Maria"] > players_wins["Ben"]:
         return "Maria"
-    else:
-        return None
+    elif players_wins["Ben"] > players_wins["Maria"]:
+        return "Ben"
+
+    return None
